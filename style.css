@@ -1,0 +1,324 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+  color: #111;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card {
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+.label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #777;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.description {
+  max-width: 560px;
+  margin: 16px 0 0;
+  color: #666;
+  line-height: 1.7;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 18px;
+  border: 1px solid #e5e5e5;
+}
+
+table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  background: white;
+}
+
+thead {
+  background: #111;
+  color: white;
+}
+
+th {
+  padding: 16px;
+  font-size: 14px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eeeeee;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+.nomor {
+  width: 60px;
+  font-weight: 700;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+}
+
+input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.nama {
+  min-width: 220px;
+}
+
+.unit {
+  min-width: 90px;
+}
+
+.harga {
+  min-width: 150px;
+}
+
+.totalHarga {
+  min-width: 160px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-add {
+  background: #111;
+  color: white;
+}
+
+.btn-add:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.btn-reset {
+  background: #eeeeee;
+  color: #111;
+}
+
+.btn-reset:hover {
+  background: #dddddd;
+}
+
+.btn-delete {
+  background: #ffe8e8;
+  color: #c1121f;
+}
+
+.btn-delete:hover {
+  background: #c1121f;
+  color: white;
+}
+
+.summary {
+  margin-top: 28px;
+  padding: 24px;
+  border-radius: 18px;
+  background: #111;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.summary span {
+  font-size: 16px;
+  color: #cfcfcf;
+}
+
+.summary strong {
+  font-size: clamp(24px, 4vw, 38px);
+  white-space: nowrap;
+}
+
+/* Responsive untuk HP */
+@media (max-width: 768px) {
+  .app {
+    padding: 24px 14px;
+  }
+
+  .card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+.btn-excel {
+  background: #107c41;
+  color: white;
+}
+
+.btn-excel:hover {
+  background: #0b5f31;
+  transform: translateY(-1px);
+}
+
+.btn-pdf {
+  background: #b91c1c;
+  color: white;
+}
+
+.btn-pdf:hover {
+  background: #991b1b;
+  transform: translateY(-1px);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.btn-logout {
+  background: #111;
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #333;
+}
+
+.auth-page {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  padding: 34px;
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+}
+
+.auth-card h1 {
+  margin-bottom: 12px;
+}
+
+.auth-form {
+  margin-top: 26px;
+  display: grid;
+  gap: 18px;
+}
+
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.auth-link {
+  margin-top: 22px;
+  text-align: center;
+  color: #666;
+}
+
+.auth-link a {
+  color: #111;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .btn-logout {
+    width: 100%;
+  }
+
+  .auth-card {
+    padding: 24px;
+    border-radius: 18px;
+  }
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Tabel Harga</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body onload="cekLogin()">
+
+  <main class="app">
+    <section class="card">
+      <div class="header">
+        <div>
+          <p class="label">Automatic Calculator</p>
+          <h1>Tabel Harga</h1>
+          <p class="description">
+            Masukkan nama barang, jumlah unit, dan harga. Total akan dihitung otomatis.
+          </p>
+        </div>
+
+        <button class="btn btn-logout" onclick="logoutAdmin()">
+          Logout
+        </button>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="tabelBarang">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Unit</th>
+              <th>Harga</th>
+              <th>Total Harga</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td class="nomor">1</td>
+
+              <td>
+                <input type="text" class="nama" placeholder="Contoh: Kaos" />
+              </td>
+
+              <td>
+                <input type="number" class="unit" value="1" min="0" />
+              </td>
+
+              <td>
+                <input type="text" class="harga" value="0" />
+              </td>
+
+              <td class="totalHarga">Rp 0</td>
+
+              <td class="kolom-aksi">
+                <button class="btn btn-delete" onclick="hapusBaris(this)">
+                  Hapus
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-add" onclick="tambahBaris()">
+          + Tambah Baris
+        </button>
+
+        <button class="btn btn-reset" onclick="resetTabel()">
+          Reset
+        </button>
+
+        <button class="btn btn-excel" onclick="exportExcel()">
+          Export Excel
+        </button>
+
+        <button class="btn btn-pdf" onclick="exportPDF()">
+          Export PDF
+        </button>
+      </div>
+
+      <div class="summary">
+        <span>Total Keseluruhan</span>
+        <strong id="totalKeseluruhan">Rp 0</strong>
+      </div>
+    </section>
+  </main>
+
+  <!-- Supabase Auth -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+
+  <!-- Export Excel & PDF -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>
