@@ -35,6 +35,7 @@
               <th>Unit</th>
               <th>Harga</th>
               <th>Total Harga</th>
+              <th>Link Produk</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -56,6 +57,17 @@
               </td>
 
               <td class="totalHarga">Rp 0</td>
+
+              <td>
+                <input
+                  type="url"
+                  class="linkProduk"
+                  placeholder="https://tokopedia.com/..."
+                />
+                <a href="#" class="btn-link cekLink" target="_blank">
+                  Cek
+                </a>
+              </td>
 
               <td class="kolom-aksi">
                 <button class="btn btn-delete" onclick="hapusBaris(this)">

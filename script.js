@@ -19,6 +19,20 @@ function bersihkanAngka(value) {
   return Number(String(value).replace(/\./g, "").replace(/\D/g, "")) || 0;
 }
 
+function rapikanLink(link) {
+  const value = String(link).trim();
+
+  if (value === "") {
+    return "";
+  }
+
+  if (value.startsWith("http://") || value.startsWith("https://")) {
+    return value;
+  }
+
+  return "https://" + value;
+}
+
 function hitungTotal() {
   const rows = document.querySelectorAll("#tabelBarang tbody tr");
   const totalEl = document.getElementById("totalKeseluruhan");
@@ -30,6 +44,8 @@ function hitungTotal() {
     const unitInput = row.querySelector(".unit");
     const hargaInput = row.querySelector(".harga");
     const totalHargaCell = row.querySelector(".totalHarga");
+    const linkInput = row.querySelector(".linkProduk");
+    const cekLink = row.querySelector(".cekLink");
 
     if (!nomor || !unitInput || !hargaInput || !totalHargaCell) return;
 
@@ -41,6 +57,20 @@ function hitungTotal() {
 
     totalHargaCell.textContent = formatRupiah(totalHarga);
     totalKeseluruhan += totalHarga;
+
+    if (linkInput && cekLink) {
+      const link = rapikanLink(linkInput.value);
+
+      if (link) {
+        cekLink.href = link;
+        cekLink.style.pointerEvents = "auto";
+        cekLink.style.opacity = "1";
+      } else {
+        cekLink.href = "#";
+        cekLink.style.pointerEvents = "none";
+        cekLink.style.opacity = "0.4";
+      }
+    }
   });
 
   if (totalEl) {
@@ -77,6 +107,17 @@ function tambahBaris() {
     </td>
 
     <td class="totalHarga">Rp 0</td>
+
+    <td>
+      <input
+        type="url"
+        class="linkProduk"
+        placeholder="https://tokopedia.com/..."
+      />
+      <a href="#" class="btn-link cekLink" target="_blank">
+        Cek
+      </a>
+    </td>
 
     <td class="kolom-aksi">
       <button class="btn btn-delete" onclick="hapusBaris(this)">
@@ -124,6 +165,17 @@ function resetTabel() {
 
       <td class="totalHarga">Rp 0</td>
 
+      <td>
+        <input
+          type="url"
+          class="linkProduk"
+          placeholder="https://tokopedia.com/..."
+        />
+        <a href="#" class="btn-link cekLink" target="_blank">
+          Cek
+        </a>
+      </td>
+
       <td class="kolom-aksi">
         <button class="btn btn-delete" onclick="hapusBaris(this)">
           Hapus
@@ -146,6 +198,10 @@ function aktifkanInputOtomatis() {
       formatInputHarga(input);
     };
   });
+
+  document.querySelectorAll(".linkProduk").forEach(function (input) {
+    input.oninput = hitungTotal;
+  });
 }
 
 function ambilDataTabel() {
@@ -156,6 +212,8 @@ function ambilDataTabel() {
     const nama = row.querySelector(".nama")?.value || "-";
     const unit = Number(row.querySelector(".unit")?.value) || 0;
     const hargaText = row.querySelector(".harga")?.value || "0";
+    const linkText = row.querySelector(".linkProduk")?.value || "-";
+
     const harga = bersihkanAngka(hargaText);
     const totalHarga = unit * harga;
 
@@ -164,7 +222,8 @@ function ambilDataTabel() {
       Nama: nama,
       Unit: unit,
       Harga: formatAngkaDenganTitik(harga),
-      "Total Harga": formatAngkaDenganTitik(totalHarga)
+      "Total Harga": formatAngkaDenganTitik(totalHarga),
+      "Link Produk": linkText
     });
   });
 
@@ -192,8 +251,9 @@ function exportExcel() {
     No: "",
     Nama: "",
     Unit: "",
-    Harga: "Total Keseluruhan",
-    "Total Harga": formatAngkaDenganTitik(totalKeseluruhan)
+    Harga: "",
+    "Total Harga": "Total Keseluruhan",
+    "Link Produk": formatAngkaDenganTitik(totalKeseluruhan)
   });
 
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -204,7 +264,8 @@ function exportExcel() {
     { wch: 25 },
     { wch: 10 },
     { wch: 18 },
-    { wch: 20 }
+    { wch: 20 },
+    { wch: 45 }
   ];
 
   XLSX.utils.book_append_sheet(workbook, worksheet, "Tabel Harga");
