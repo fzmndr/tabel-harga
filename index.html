@@ -17,7 +17,7 @@
           <p class="label">Automatic Calculator</p>
           <h1>Tabel Harga</h1>
           <p class="description">
-            Masukkan nama barang, jumlah unit, dan harga. Total akan dihitung otomatis.
+            Masukkan nama barang, jumlah unit, harga, dan link produk. Total akan dihitung otomatis.
           </p>
         </div>
 
@@ -88,6 +88,17 @@
           Reset
         </button>
 
+        <label class="btn btn-import">
+          Import Excel
+          <input
+            type="file"
+            id="importExcel"
+            accept=".xlsx,.xls"
+            onchange="importExcel(event)"
+            hidden
+          />
+        </label>
+
         <button class="btn btn-excel" onclick="exportExcel()">
           Export Excel
         </button>
@@ -109,7 +120,7 @@
   <script src="supabase-config.js"></script>
   <script src="auth.js"></script>
 
-  <!-- Export Excel & PDF -->
+  <!-- Export / Import Excel & PDF -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 

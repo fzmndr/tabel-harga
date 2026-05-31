@@ -33,6 +33,14 @@ function rapikanLink(link) {
   return "https://" + value;
 }
 
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
 function hitungTotal() {
   const rows = document.querySelectorAll("#tabelBarang tbody tr");
   const totalEl = document.getElementById("totalKeseluruhan");
@@ -265,11 +273,149 @@ function exportExcel() {
     { wch: 10 },
     { wch: 18 },
     { wch: 20 },
-    { wch: 45 }
+    { wch: 50 }
   ];
 
   XLSX.utils.book_append_sheet(workbook, worksheet, "Tabel Harga");
   XLSX.writeFile(workbook, "tabel-harga.xlsx");
+}
+
+function importExcel(event) {
+  if (typeof XLSX === "undefined") {
+    alert("Library Excel belum terbaca. Pastikan CDN XLSX sudah dipasang.");
+    return;
+  }
+
+  const file = event.target.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    const data = new Uint8Array(e.target.result);
+
+    const workbook = XLSX.read(data, {
+      type: "array"
+    });
+
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    const rows = XLSX.utils.sheet_to_json(worksheet, {
+      defval: ""
+    });
+
+    if (rows.length === 0) {
+      alert("File Excel kosong atau format tidak sesuai.");
+      return;
+    }
+
+    isiTabelDariExcel(rows);
+
+    event.target.value = "";
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+
+function isiTabelDariExcel(rows) {
+  const tbody = document.querySelector("#tabelBarang tbody");
+
+  tbody.innerHTML = "";
+
+  rows.forEach(function (item, index) {
+    const nama =
+      item.Nama ||
+      item.nama ||
+      item["Nama Barang"] ||
+      item["nama barang"] ||
+      "";
+
+    const unit =
+      item.Unit ||
+      item.unit ||
+      item.Jumlah ||
+      item.jumlah ||
+      1;
+
+    const harga =
+      item.Harga ||
+      item.harga ||
+      item["Harga Satuan"] ||
+      item["harga satuan"] ||
+      0;
+
+    const link =
+      item["Link Produk"] ||
+      item["link produk"] ||
+      item.Link ||
+      item.link ||
+      item.URL ||
+      item.url ||
+      "";
+
+    const hargaBersih = bersihkanAngka(String(harga));
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td class="nomor">${index + 1}</td>
+
+      <td>
+        <input
+          type="text"
+          class="nama"
+          value="${escapeHTML(nama)}"
+          placeholder="Nama barang"
+        />
+      </td>
+
+      <td>
+        <input
+          type="number"
+          class="unit"
+          value="${escapeHTML(unit)}"
+          min="0"
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          class="harga"
+          value="${formatAngkaDenganTitik(hargaBersih)}"
+        />
+      </td>
+
+      <td class="totalHarga">Rp 0</td>
+
+      <td>
+        <input
+          type="url"
+          class="linkProduk"
+          value="${escapeHTML(link)}"
+          placeholder="https://tokopedia.com/..."
+        />
+        <a href="#" class="btn-link cekLink" target="_blank">
+          Cek
+        </a>
+      </td>
+
+      <td class="kolom-aksi">
+        <button class="btn btn-delete" onclick="hapusBaris(this)">
+          Hapus
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  aktifkanInputOtomatis();
+  hitungTotal();
 }
 
 function exportPDF() {
