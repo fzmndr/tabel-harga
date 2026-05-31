@@ -89,7 +89,14 @@ function hitungTotal() {
 function formatInputHarga(input) {
   let value = input.value.replace(/\D/g, "");
 
-  input.value = value === "" ? "0" : formatAngkaDenganTitik(value);
+  // Hapus angka 0 di depan
+  value = value.replace(/^0+/, "");
+
+  if (value === "") {
+    input.value = "0";
+  } else {
+    input.value = formatAngkaDenganTitik(value);
+  }
 
   hitungTotal();
 }
